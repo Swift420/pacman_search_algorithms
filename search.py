@@ -165,6 +165,7 @@ def breadthFirstSearch(problem):
         node, path = queue.pop()
         # print("current node: ", node)
         # print("current successor: ", successor)
+        print(node)
         if problem.isGoalState(node):
             # print("is Goal state")
             # path.append(successor)
@@ -191,14 +192,15 @@ def breadthFirstSearch(problem):
 def uniformCostSearch(problem):
     """Search the node of least total cost first."""
     "*** YOUR CODE HERE ***"
-    frontier = [(0, problem.getStartState(), [])]
+    frontier = [(0, (problem.getStartState(), "", 0), [])]
     visited = set()
 
     while frontier:
         cost,  state, path = heapq.heappop(frontier)
-        node = state[0]
+        node, a, b = state
         # print(node, cost, " node cost", state)
         # print(path)
+        # print(node, a, b)
 
         if problem.isGoalState(node):
             return path
