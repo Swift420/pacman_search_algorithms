@@ -140,8 +140,9 @@ def depthFirstSearch(problem):
         for neighbourNode, successPath, cost in problem.getSuccessors(currentNode):
             # print(neighbour)
 
-            chosenPath = path + [successPath]
-            stack.append((neighbourNode,  chosenPath))
+            path1 = path + [successPath]
+            # add the neighbour node to the stack with its current path
+            stack.append((neighbourNode,  path1))
     return path
     # util.raiseNotDefined()
 
@@ -153,6 +154,7 @@ def breadthFirstSearch(problem):
 
     visited = []
     path = []
+    # use a fifo in bfs, so a queue data structure is used.
     queue.push((problem.getStartState(), path))
 
     while queue:
@@ -178,9 +180,9 @@ def breadthFirstSearch(problem):
 
         for neighbourNode, successPath, cost in problem.getSuccessors(node):
             # print(neighbour)
-            chosenPath = path + [successPath]
+            path1 = path + [successPath]
 
-            queue.push((neighbourNode, chosenPath))
+            queue.push((neighbourNode, path1))
     return path
     # util.raiseNotDefined()
 
