@@ -233,12 +233,12 @@ def nullHeuristic(state, problem=None):
 def aStarSearch(problem, heuristic=nullHeuristic):
     """Search the node that has the lowest combined cost and heuristic first."""
     "*** YOUR CODE HERE ***"
-    frontier = [(0, (problem.getStartState(), "", 0), [])]
+    frontier = util.PriorityQueue()
+    frontier.push((problem.getStartState(), [], 0), 0)
     visited = set()
 
     while frontier:
-        cost,  state, path = heapq.heappop(frontier)
-        node, a, b = state
+        node,  path, cost = frontier.pop()
         # print(node, cost, " node cost", state)
         # print(path)
         # print(path, cost)
@@ -264,8 +264,8 @@ def aStarSearch(problem, heuristic=nullHeuristic):
             # print(heuristic(successor_node, problem))
             if successor not in visited:
 
-                heapq.heappush(
-                    frontier, (f_score, successor, path+[successor_path]))
+                frontier.push(
+                    (successor_node, path+[successor_path], new_cost), f_score)
     return []
 
 
