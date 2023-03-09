@@ -181,13 +181,14 @@ def breadthFirstSearch(problem):
 def uniformCostSearch(problem):
     """Search the node of least total cost first."""
     "*** YOUR CODE HERE ***"
-    frontier = util.PriorityQueue()
-    frontier.push((problem.getStartState(), [], 0), 0)
+    fringe = util.PriorityQueue()
+    fringe.push((problem.getStartState(), [], 0), 0)
+
     visited = set()
 
-    while frontier:
+    while fringe:
 
-        node,  path, cost = frontier.pop()
+        node,  path, cost = fringe.pop()
 
         if problem.isGoalState(node):
             return path
@@ -209,7 +210,7 @@ def uniformCostSearch(problem):
             if successor not in visited:
 
                 #
-                frontier.push(
+                fringe.push(
                     (successor_node, path+[successor_path], new_cost), new_cost)
     return []
     # util.raiseNotDefined()
@@ -226,14 +227,14 @@ def nullHeuristic(state, problem=None):
 def aStarSearch(problem, heuristic=nullHeuristic):
     """Search the node that has the lowest combined cost and heuristic first."""
     "*** YOUR CODE HERE ***"
-    frontier = util.PriorityQueue()  # Initialize a priority queue
-    # push the start state to the frontier, with a starting cost of 0
-    frontier.push((problem.getStartState(), [], 0), 0)
+    fringe = util.PriorityQueue()  # Initialize a priority queue
+    # push the start state to the fringe, with a starting cost of 0
+    fringe.push((problem.getStartState(), [], 0), 0)
     visited = set()
 
-    while frontier:
+    while fringe:
         # Get the current node, its current path and the priority
-        node,  path, cost = frontier.pop()
+        node,  path, cost = fringe.pop()
 
         if problem.isGoalState(node):  # Test if the current node is the goal node
             return path  # Return node path if it is the goal node
@@ -260,9 +261,9 @@ def aStarSearch(problem, heuristic=nullHeuristic):
 
             # Test if the successor(neighbour) state is not in the the visited set
             if successor not in visited:
-                # push it to the frontier, which accepts in form of (state, priority) (state = ('A', [], 0) priority = 0)
+                # push it to the fringe, which accepts in form of (state, priority) (state = ('A', [], 0) priority = 0)
                 #
-                frontier.push(
+                fringe.push(
                     (successor_node, path+[successor_path], new_cost), f_score)
     return []
 
