@@ -188,12 +188,6 @@ def uniformCostSearch(problem):
     while frontier:
 
         node,  path, cost = frontier.pop()
-       # node, path, priority = frontier.pop()
-        # node = state
-        # print(cost, " node cost", node, path)
-        # print(path)
-        # print(path)
-        # print(node, path)
 
         if problem.isGoalState(node):
             return path
@@ -214,8 +208,7 @@ def uniformCostSearch(problem):
             # print(successor_node)
             if successor not in visited:
 
-                # frontier.push(
-                #     frontier, (new_cost, successor, path+[successor_path]))
+                #
                 frontier.push(
                     (successor_node, path+[successor_path], new_cost), new_cost)
     return []
@@ -233,19 +226,17 @@ def nullHeuristic(state, problem=None):
 def aStarSearch(problem, heuristic=nullHeuristic):
     """Search the node that has the lowest combined cost and heuristic first."""
     "*** YOUR CODE HERE ***"
-    frontier = util.PriorityQueue()
+    frontier = util.PriorityQueue()  # Initialize a priority queue
+    # push the start state to the frontier, with a starting cost of 0
     frontier.push((problem.getStartState(), [], 0), 0)
     visited = set()
 
     while frontier:
+        # Get the current node, its current path and the priority
         node,  path, cost = frontier.pop()
-        # print(node, cost, " node cost", state)
-        # print(path)
-        # print(path, cost)
-        # print(node)
 
-        if problem.isGoalState(node):
-            return path
+        if problem.isGoalState(node):  # Test if the current node is the goal node
+            return path  # Return node path if it is the goal node
 
         elif node not in visited:
             # path.append(successor)
@@ -255,15 +246,22 @@ def aStarSearch(problem, heuristic=nullHeuristic):
             # leaf node
             continue
 
+        # Get a neighboring node of the current node
         for successor in problem.getSuccessors(node):
+          # The states are saved as, for example, ('B', 'B->C', 0)
+          # Get each of the successor components and store them in variables = (successor_node, successor_path, successor_cost)
             successor_node = successor[0]
             successor_path = successor[1]
             successor_cost = successor[2]
+            # add the current node cost to the neighboring node cost to get the new_cost
             new_cost = cost + successor_cost
+            # using the heuristic function, add it to the new cost to get the f score
             f_score = new_cost + heuristic(successor_node, problem)
-            # print(heuristic(successor_node, problem))
-            if successor not in visited:
 
+            # Test if the successor(neighbour) state is not in the the visited set
+            if successor not in visited:
+                # push it to the frontier, which accepts in form of (state, priority) (state = ('A', [], 0) priority = 0)
+                #
                 frontier.push(
                     (successor_node, path+[successor_path], new_cost), f_score)
     return []
