@@ -91,17 +91,6 @@ def depthFirstSearch(problem):
     """
     "*** YOUR CODE HERE ***"
 
-    # print("Start:", problem.getStartState())
-    # print("Is the start a goal?", problem.isGoalState(problem.getStartState()))
-    # print("Start's successors:", problem.getSuccessors(problem.getStartState()))
-    # # print("hello", problem)
-
-    # visited.add(problem.getStartState())
-
-    # for neighbor in problem.getSuccessors(problem.getStartState()):
-    #     print("heyyya", neighbor[0])
-    # stack = ["A", "B1", "C", "D", "E2", "F", "G"].reverse
-
     stack = []  # Fringe which is a stack in a dfs
 
     visited = []  # List which keeps visited nodes
@@ -141,9 +130,9 @@ def depthFirstSearch(problem):
         for neighbourNode, successPath, cost in problem.getSuccessors(currentNode):
             # print(neighbour)
 
-            path1 = path + [successPath]
+            successor_path = path + [successPath]
             # add the neighbour node to the stack with its current path
-            stack.append((neighbourNode,  path1))
+            stack.append((neighbourNode,  successor_path))
     return path
     # util.raiseNotDefined()
 
@@ -165,7 +154,7 @@ def breadthFirstSearch(problem):
         node, path = queue.pop()
         # print("current node: ", node)
         # print("current successor: ", successor)
-        print(node)
+        # print(node)
         if problem.isGoalState(node):
             # print("is Goal state")
             # path.append(successor)
@@ -182,9 +171,9 @@ def breadthFirstSearch(problem):
 
         for neighbourNode, successPath, cost in problem.getSuccessors(node):
             # print(neighbour)
-            path1 = path + [successPath]
+            successor_path = path + [successPath]
 
-            queue.push((neighbourNode, path1))
+            queue.push((neighbourNode, successor_path))
     return path
     # util.raiseNotDefined()
 
@@ -192,15 +181,19 @@ def breadthFirstSearch(problem):
 def uniformCostSearch(problem):
     """Search the node of least total cost first."""
     "*** YOUR CODE HERE ***"
-    frontier = [(0, (problem.getStartState(), "", 0), [])]
+    frontier = util.PriorityQueue()
+    frontier.push((problem.getStartState(), [], 0), 0)
     visited = set()
 
     while frontier:
-        cost,  state, path = heapq.heappop(frontier)
-        node, a, b = state
-        # print(node, cost, " node cost", state)
+
+        node,  path, cost = frontier.pop()
+       # node, path, priority = frontier.pop()
+        # node = state
+        # print(cost, " node cost", node, path)
         # print(path)
-        # print(node, a, b)
+        # print(path)
+        # print(node, path)
 
         if problem.isGoalState(node):
             return path
@@ -217,12 +210,14 @@ def uniformCostSearch(problem):
             successor_node = successor[0]
             successor_path = successor[1]
             successor_cost = successor[2]
-
             new_cost = cost + successor_cost
+            # print(successor_node)
             if successor not in visited:
 
-                heapq.heappush(
-                    frontier, (new_cost, successor, path+[successor_path]))
+                # frontier.push(
+                #     frontier, (new_cost, successor, path+[successor_path]))
+                frontier.push(
+                    (successor_node, path+[successor_path], new_cost), new_cost)
     return []
     # util.raiseNotDefined()
 
@@ -238,7 +233,40 @@ def nullHeuristic(state, problem=None):
 def aStarSearch(problem, heuristic=nullHeuristic):
     """Search the node that has the lowest combined cost and heuristic first."""
     "*** YOUR CODE HERE ***"
-    util.raiseNotDefined()
+    frontier = [(0, (problem.getStartState(), "", 0), [])]
+    visited = set()
+
+    while frontier:
+        cost,  state, path = heapq.heappop(frontier)
+        node, a, b = state
+        # print(node, cost, " node cost", state)
+        # print(path)
+        # print(path, cost)
+        # print(node)
+
+        if problem.isGoalState(node):
+            return path
+
+        elif node not in visited:
+            # path.append(successor)
+            visited.add(node)
+
+        elif node in visited:
+            # leaf node
+            continue
+
+        for successor in problem.getSuccessors(node):
+            successor_node = successor[0]
+            successor_path = successor[1]
+            successor_cost = successor[2]
+            new_cost = cost + successor_cost
+            f_score = new_cost + heuristic(successor_node, problem)
+            # print(heuristic(successor_node, problem))
+            if successor not in visited:
+
+                heapq.heappush(
+                    frontier, (f_score, successor, path+[successor_path]))
+    return []
 
 
 # Abbreviations
