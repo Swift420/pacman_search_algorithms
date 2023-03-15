@@ -104,16 +104,14 @@ def depthFirstSearch(problem):
         # print("path: ", path)
 
         currentNode, path = stack.pop()  # Get the node and its path from the fringe
-
+        # C , path = a-c
         # print("current node: ", node)
         # print("current successor: ", successor)
 
         # Check if the current node is the goal node
         if problem.isGoalState(currentNode):
-            # print("is Goal state")
-            # path.append(successor)
 
-            return path
+            return path  # Return goal node's path
 
         elif currentNode not in visited:  # check if the current node was visited already
             # path.append(successor)
@@ -128,8 +126,8 @@ def depthFirstSearch(problem):
         # get the neighbour node, it's path to a neighbor node and cost
         # We dont use cost in this solution but everything needs to be extracted
         for neighbourNode, successPath, cost in problem.getSuccessors(currentNode):
-            # print(neighbour)
-
+            # print(neighbour) G - neighbour, successPath - c-g
+            # a- c c-g [A->C, C-G]
             successor_path = path + [successPath]
             # add the neighbour node to the stack with its current path
             stack.append((neighbourNode,  successor_path))
@@ -209,7 +207,6 @@ def uniformCostSearch(problem):
             # print(successor_node)
             if successor not in visited:
 
-                #
                 fringe.push(
                     (successor_node, path+[successor_path], new_cost), new_cost)
     return []
@@ -257,11 +254,12 @@ def aStarSearch(problem, heuristic=nullHeuristic):
             # add the current node cost to the neighboring node cost to get the new_cost
             new_cost = cost + successor_cost
             # using the heuristic function, add it to the new cost to get the f score
+            # f(n) = g(n) + h(n)
             f_score = new_cost + heuristic(successor_node, problem)
 
             # Test if the successor(neighbour) state is not in the the visited set
             if successor not in visited:
-                # push it to the fringe, which accepts in form of (state, priority) (state = ('A', [], 0) priority = 0)
+                # push it to the fringe, which accepts in form of (state, priority), state = ('A', [], 0) priority = 0
                 #
                 fringe.push(
                     (successor_node, path+[successor_path], new_cost), f_score)
