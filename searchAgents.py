@@ -320,7 +320,7 @@ class CornersProblem(search.SearchProblem):
         """
         "*** YOUR CODE HERE ***"
         start = (self.startingPosition, list(self.corners))
-       # print("walls", self.top, self.right)
+
         return start
         # util.raiseNotDefined()
 
@@ -331,7 +331,7 @@ class CornersProblem(search.SearchProblem):
         "*** YOUR CODE HERE ***"
 
         # util.raiseNotDefined()
-        if len(state[1]) == 0:
+        if len(list(state[1])) == 0:
             return True  # Return True if the array is empty
 
         return False
@@ -369,15 +369,15 @@ class CornersProblem(search.SearchProblem):
                 continue
             else:
 
-                next_position = (nextx, nexty)  # Get the next position
+                nextState = (nextx, nexty)  # Get the next state
 
                 # check if the next position is a corner
-                if next_position in cornerList:
+                if nextState in cornerList:
                     # remove the next position from the corner list
-                    # This will keep removing corners which get visited until the cornerList is empty which will trigger the goal state condition
-                    cornerList.remove(next_position)
+                    # This will keep removing corners which get visited until the cornerList is empty, which will trigger the goal state condition
+                    cornerList.remove(nextState)
                 # Get the new state which is the next position and the new corners list which are unvisited
-                new_state = (next_position, cornerList)
+                new_state = (nextState, cornerList)
                 # append the new state to the successor list with the action and cost
                 successors.append((new_state, action, 0))
 
@@ -419,7 +419,9 @@ def cornersHeuristic(state, problem):
     walls = problem.walls
 
     "*** YOUR CODE HERE ***"
-    return 0  # Default to trivial solution
+    print(corners)
+    print(walls)
+    return []  # Default to trivial solution
 
 
 class AStarCornersAgent(SearchAgent):
