@@ -362,19 +362,23 @@ class CornersProblem(search.SearchProblem):
             dx, dy = Actions.directionToVector(action)
             nextx, nexty = int(x + dx), int(y + dy)
             hitsWall = self.walls[nextx][nexty]
+            # Initialize the list of corners to visit
             cornerList = list(state[1])
 
             if hitsWall:
                 continue
             else:
 
-                # add to successor list if move is legal
-                next_state = (nextx, nexty)
+                next_position = (nextx, nexty)  # Get the next position
 
-                if next_state in cornerList:
-                    cornerList.remove(next_state)
-
-                new_state = (next_state, cornerList)
+                # check if the next position is a corner
+                if next_position in cornerList:
+                    # remove the next position from the corner list
+                    # This will keep removing corners which get visited until the cornerList is empty which will trigger the goal state condition
+                    cornerList.remove(next_position)
+                # Get the new state which is the next position and the new corners list which are unvisited
+                new_state = (next_position, cornerList)
+                # append the new state to the successor list with the action and cost
                 successors.append((new_state, action, 0))
 
         self._expanded += 1  # DO NOT CHANGE
