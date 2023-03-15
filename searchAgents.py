@@ -371,12 +371,12 @@ class CornersProblem(search.SearchProblem):
 
                 nextState = (nextx, nexty)  # Get the next state
 
-                # check if the next position is a corner
+                # check if the next state is a corner
                 if nextState in cornerList:
-                    # remove the next position from the corner list
+                    # remove the next state from the corner list
                     # This will keep removing corners which get visited until the cornerList is empty, which will trigger the goal state condition
                     cornerList.remove(nextState)
-                # Get the new state which is the next position and the new corners list which are unvisited
+                # Get the new state which is the next state and the new corners list which are unvisited
                 new_state = (nextState, cornerList)
                 # append the new state to the successor list with the action and cost
                 successors.append((new_state, action, 0))
