@@ -126,10 +126,10 @@ def depthFirstSearch(problem):
         # get the neighbour node, it's path to a neighbor node and cost
         # We dont use cost in this solution but everything needs to be extracted
         for neighbourNode, successPath, cost in problem.getSuccessors(currentNode):
-            # print(neighbour) G - neighbour, successPath - c-g
-            # a- c c-g [A->C, C-G]
+
+            # add the current node's path to the neighbour's path
             successor_path = path + [successPath]
-            # add the neighbour node to the stack with its current path
+            # add the neighbour node to the stack with its new path
             stack.append((neighbourNode,  successor_path))
     return path
     # util.raiseNotDefined()
@@ -138,39 +138,45 @@ def depthFirstSearch(problem):
 def breadthFirstSearch(problem):
     """Search the shallowest nodes in the search tree first."""
     "*** YOUR CODE HERE ***"
-    queue = util.Queue()
+    queue = util.Queue()  # Initailize the Fringe which is a queue in a bfs
 
-    visited = []
-    path = []
-    # use a fifo in bfs, so a queue data structure is used.
+    visited = []  # List which keeps visited nodes
+    path = []  # List which keeps path of a node
+
+    # Push the starting state to the queue with its path
+    # Start with Empty path because A has no path because it is the start
     queue.push((problem.getStartState(), path))
 
-    while queue:
-        # print("stack: ", stack)
+    while queue:  # while the queue is not empty, do
+
+        # print("queue: ", queue)
         # print("visited: ", visited)
         # print("path: ", path)
-        node, path = queue.pop()
+
+        node, path = queue.pop()  # Pop the current node and its path from the queue
+
         # print("current node: ", node)
         # print("current successor: ", successor)
-        # print(node)
-        if problem.isGoalState(node):
-            # print("is Goal state")
+        if problem.isGoalState(node):  # check if the current node is the goal node
+
             # path.append(successor)
 
-            return path
+            return path  # return its the current node's path
 
-        elif node not in visited:
+        elif node not in visited:  # check if current node is not in the visited list
             # path.append(successor)
-            visited.append(node)
+            visited.append(node)  # add current node to the visited list
 
         elif node in visited:
             # leaf node
             continue
 
         for neighbourNode, successPath, cost in problem.getSuccessors(node):
-            # print(neighbour)
+
+            # add the current node's path to the neighbour's path
             successor_path = path + [successPath]
 
+            # push the neighbour node and its new path to the queue
             queue.push((neighbourNode, successor_path))
     return path
     # util.raiseNotDefined()
@@ -182,7 +188,7 @@ def uniformCostSearch(problem):
     fringe = util.PriorityQueue()
     fringe.push((problem.getStartState(), [], 0), 0)
 
-    visited = set()
+    visited = set()  # Set which keeps visited nodes
 
     while fringe:
 
@@ -209,7 +215,7 @@ def uniformCostSearch(problem):
 
                 fringe.push(
                     (successor_node, path+[successor_path], new_cost), new_cost)
-    return []
+    return path
     # util.raiseNotDefined()
 
 
@@ -257,13 +263,13 @@ def aStarSearch(problem, heuristic=nullHeuristic):
             # f(n) = g(n) + h(n)
             f_score = new_cost + heuristic(successor_node, problem)
 
-            # Test if the successor(neighbour) state is not in the the visited set
+            # Check if the successor(neighbour) state is not in the the visited set
             if successor not in visited:
                 # push it to the fringe, which accepts in form of (state, priority), state = ('A', [], 0) priority = 0
-                #
+
                 fringe.push(
                     (successor_node, path+[successor_path], new_cost), f_score)
-    return []
+    return path
 
 
 # Abbreviations
