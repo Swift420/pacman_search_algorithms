@@ -419,9 +419,6 @@ def cornersHeuristic(state, problem):
     walls = problem.walls
 
     "*** YOUR CODE HERE ***"
-    print(corners)
-    print(walls)
-    return []  # Default to trivial solution
 
 
 class AStarCornersAgent(SearchAgent):
@@ -525,7 +522,17 @@ def foodHeuristic(state, problem):
     """
     position, foodGrid = state
     "*** YOUR CODE HERE ***"
-    return 0
+    foodList = foodGrid.asList()  # get the list of food coordinates
+
+    heuristic = 0  # Initialize the heuristic to 0
+    for food in foodList:  # Loop through the food list
+        # Calculate the Euclidean distance between the pacman's position and the current food item / coordinate.
+        euclidean_distance = ((position[0] - food[0]) ** 2 +
+                              (position[1] - food[1]) ** 2) ** 0.5
+        # Update the heuristic to the maximum distance found so far
+        heuristic = max(heuristic, euclidean_distance)
+
+    return heuristic  # Return the maximum distance heuristic
 
 
 class ClosestDotSearchAgent(SearchAgent):
@@ -560,7 +567,8 @@ class ClosestDotSearchAgent(SearchAgent):
         problem = AnyFoodSearchProblem(gameState)
 
         "*** YOUR CODE HERE ***"
-        util.raiseNotDefined()
+        return search.astar(problem)
+        # util.raiseNotDefined()
 
 
 class AnyFoodSearchProblem(PositionSearchProblem):
@@ -597,7 +605,9 @@ class AnyFoodSearchProblem(PositionSearchProblem):
         x, y = state
 
         "*** YOUR CODE HERE ***"
-        util.raiseNotDefined()
+
+        return self.food[x][y]
+       # util.raiseNotDefined()
 
 
 def mazeDistance(point1, point2, gameState):

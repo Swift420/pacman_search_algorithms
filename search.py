@@ -185,33 +185,39 @@ def breadthFirstSearch(problem):
 def uniformCostSearch(problem):
     """Search the node of least total cost first."""
     "*** YOUR CODE HERE ***"
-    fringe = util.PriorityQueue()
+    fringe = util.PriorityQueue()  # Initialize the fringe
+    # push the start state to the fringe, with a starting cost of 0
     fringe.push((problem.getStartState(), [], 0), 0)
 
     visited = set()  # Set which keeps visited nodes
 
     while fringe:
-
+     # Get the current node, its current path and the cost
         node,  path, cost = fringe.pop()
 
-        if problem.isGoalState(node):
-            return path
+        if problem.isGoalState(node):  # Check if the current node is the goal node
+            return path  # Return node path if it is the goal node
 
-        elif node not in visited:
+        elif node not in visited:  # check if current node is not in the visited list
             # path.append(successor)
-            visited.add(node)
+            visited.add(node)  # add current node to the visited list
 
         elif node in visited:
             # leaf node
             continue
-
+        # Get a neighboring node of the current node
         for successor in problem.getSuccessors(node):
+            # The states are saved as, for example, ('B', 'B->C', 0)
+          # Get each of the successor components and store them in variables = (successor_node, successor_path, successor_cost)
             successor_node = successor[0]
             successor_path = successor[1]
             successor_cost = successor[2]
+            # add the current node cost to the neighboring node cost to get the new_cost
             new_cost = cost + successor_cost
             # print(successor_node)
+            # Check if the successor(neighbour) state is not in the the visited set
             if successor not in visited:
+                # push it to the fringe
 
                 fringe.push(
                     (successor_node, path+[successor_path], new_cost), new_cost)
@@ -239,12 +245,12 @@ def aStarSearch(problem, heuristic=nullHeuristic):
         # Get the current node, its current path and the priority
         node,  path, cost = fringe.pop()
 
-        if problem.isGoalState(node):  # Test if the current node is the goal node
+        if problem.isGoalState(node):  # Check if the current node is the goal node
             return path  # Return node path if it is the goal node
 
-        elif node not in visited:
+        elif node not in visited:  # check if current node is not in the visited list
             # path.append(successor)
-            visited.add(node)
+            visited.add(node)  # add current node to the visited list
 
         elif node in visited:
             # leaf node
