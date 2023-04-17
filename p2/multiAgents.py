@@ -11,6 +11,7 @@
 # Student side autograding was added by Brad Miller, Nick Hay, and
 # Pieter Abbeel (pabbeel@cs.berkeley.edu).
 
+import heapq
 from cmath import inf
 
 from util import manhattanDistance
@@ -303,13 +304,63 @@ class ExpectimaxAgent(MultiAgentSearchAgent):
 
 def betterEvaluationFunction(currentGameState):
     """
-      Your extreme ghost-hunting, pellet-nabbing, food-gobbling, unstoppable
-      evaluation function (question 5).
+    Your extreme ghost-hunting, pellet-nabbing, food-gobbling, unstoppable
+    evaluation function (question 5).
 
-      DESCRIPTION: <write something here so we know what you did>
+    DESCRIPTION: <write something here so we know what you did>
     """
-    "*** YOUR CODE HERE ***"
-    util.raiseNotDefined()
+
+
+def betterEvaluationFunction(currentGameState):
+    """
+    Your extreme ghost-hunting, pellet-nabbing, food-gobbling, unstoppable
+    evaluation function (question 5).
+
+    DESCRIPTION: <write something here so we know what you did>
+    """
+
+
+def betterEvaluationFunction(currentGameState):
+    """
+    Your extreme ghost-hunting, pellet-nabbing, food-gobbling, unstoppable
+    evaluation function (question 5).
+
+    DESCRIPTION: <write something here so we know what you did>
+    """
+    # Get the current position of Pacman
+    position = currentGameState.getPacmanPosition()
+    # Get the current state of all the food pellets
+    foodList = currentGameState.getFood().asList()
+
+    # Initialize the variable to keep track of the closest food distance
+    closestFoodDis = None
+    # If there are any food  on the board, calculate the distance to each pellet
+    if foodList:
+       # Create a list to store the food distance and coordinates
+        food_distances = []
+
+        # Loop over all the food in the food list
+        for food in foodList:
+            # Calculate the manhattan distance between the current position and the current food
+            distance = manhattanDistance(position, food)
+            # Add the distance and food coordinates as a tuple to the food_distances list
+            food_distances.append((distance, food))
+
+        # Create a min heap from the list of food distances
+        heapq.heapify(food_distances)
+
+        # Get the closest food distance from the heap
+        closestFoodDis, _ = heapq.heappop(food_distances)
+
+    # Get the current score
+    score = currentGameState.getScore()
+    # If no food pellets are left, set the distance to the closest food pellet to 2
+    if closestFoodDis == None:
+        closestFoodDis = 2
+
+     # Calculate the evaluation function
+    evaluation = 10 / closestFoodDis + score
+    return evaluation
 
 
 # Abbreviation
