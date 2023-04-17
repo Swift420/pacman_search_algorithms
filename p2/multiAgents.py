@@ -334,7 +334,7 @@ def betterEvaluationFunction(currentGameState):
 
     # Initialize the variable to keep track of the closest food distance
     closestFoodDis = None
-    # If there are any food  on the board, calculate the distance to each pellet
+    # If there are any food  on the board, calculate the distance to the food
     if foodList:
        # Create a list to store the food distance and coordinates
         food_distances = []
